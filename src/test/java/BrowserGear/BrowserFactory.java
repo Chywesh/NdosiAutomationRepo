@@ -5,6 +5,7 @@ import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -40,15 +41,15 @@ public class BrowserFactory {
         return page;
     }
     public Properties init_prop(){
-        if (prop == null){
-            prop = new Properties();
-            try{
-                prop.load(getClass().getClassLoader().getResourceAsStream("src/test/java/resources/Configs/config.properties"));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+      try{
+          FileInputStream ip = new FileInputStream("src/test/resources/Configs/config.properties");
+          prop = new Properties();
+          prop.load(ip);
 
-        }
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+
+      }
         return prop;
     }
 }

@@ -10,8 +10,8 @@ import java.util.Properties;
 public class BaseTrack {
     BrowserFactory play;
     Page page;
-    LoginPage loginPage;
-    Properties prop;
+    public LoginPage loginPage;
+    public Properties prop;
 
     @BeforeTest
     public void setup(){
