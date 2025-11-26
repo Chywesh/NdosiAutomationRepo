@@ -3,7 +3,7 @@ package Tests;
 import Base.BaseTrack;
 import org.testng.annotations.Test;
 
-public class LoginScenario extends BaseTrack {
+public class LoginEndToEnd extends BaseTrack {
     @Test
     public void clickMaterialBtn() {
         loginPage.clickLearningMatButton();
