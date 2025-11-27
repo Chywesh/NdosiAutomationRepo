@@ -32,8 +32,9 @@ public class BrowserFactory {
                 browser = playwright.firefox().launch(new com.microsoft.playwright.BrowserType.LaunchOptions().setHeadless(false));
                 break;
         }
+        // create and reuse a single BrowserContext, then create the Page from that context
         browserContext = browser.newContext();
-        page = browser.newContext().newPage();
+        page = browserContext.newPage();
         page.navigate(prop.getProperty("url").trim());
     }
 
