@@ -1,7 +1,7 @@
 package Base;
 
 import BrowserGear.BrowserFactory;
-import Pages.HomePage;
+import Pages.LearningMaterialPage;
 import Pages.LoginPage;
 import com.microsoft.playwright.Page;
 import org.testng.annotations.BeforeTest;
@@ -10,9 +10,9 @@ import java.util.Properties;
 
 public class BaseTrack {
     BrowserFactory play;
-    Page page;
+    public Page page;
     public LoginPage loginPage;
-    public HomePage homePage;
+    public LearningMaterialPage learningMaterialPage;
     public Properties prop;
 
     @BeforeTest
@@ -22,7 +22,7 @@ public class BaseTrack {
         play.runBrowser(prop);
         page = play.getPage();
         loginPage = new LoginPage(page);
-        homePage = new HomePage(page);
+        learningMaterialPage = new LearningMaterialPage(page);
     }
 
 }

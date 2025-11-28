@@ -16,9 +16,9 @@ public class LoginEndToEnd extends BaseTrack {
         // Click login and wait
         loginPage.clickLoginButton();
         // Verify home page heading is present and not empty
-        String homePageTitle = homePage.getHomePageHeadingText();
-        System.out.println("Home Page Title: " + homePageTitle);
-        Assert.assertFalse(homePageTitle == null || homePageTitle.trim().isEmpty(), "Expected a non-empty home page heading after login");
+        String materialLearningPageTitle = learningMaterialPage.getLeaningMatPageHeadingText();
+        System.out.println("Home Page Title: " + materialLearningPageTitle);
+        Assert.assertFalse(materialLearningPageTitle == null || materialLearningPageTitle.trim().isEmpty(), "Expected a non-empty home page heading after login");
     }
 
 }
