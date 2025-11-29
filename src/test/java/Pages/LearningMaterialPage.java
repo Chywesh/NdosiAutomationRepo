@@ -4,6 +4,8 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.WaitForSelectorState;
 
+import static java.lang.Thread.sleep;
+
 public class LearningMaterialPage {
     Page page;
 
@@ -33,6 +35,11 @@ public class LearningMaterialPage {
     }
     public void clickLogoutButton() {
         page.click(logoutButton_ID);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
