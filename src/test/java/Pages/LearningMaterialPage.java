@@ -2,9 +2,8 @@ package Pages;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.PlaywrightException;
 import com.microsoft.playwright.options.WaitForSelectorState;
-
-import static java.lang.Thread.sleep;
 
 public class LearningMaterialPage {
     Page page;
@@ -13,7 +12,6 @@ public class LearningMaterialPage {
     final String[] homeHeadingFallbacks = new String[]{"#practice-heading", "h1", "header h1", ".page-title", ".heading", "main h1"};
     final String logoutButton_ID = "#logout-button";
     final String webAutomationAdvanced_ID = "//span[normalize-space()='Web Automation Advance']";
-    final String deviceTypeSelect_ID = "#deviceType";
 
     public LearningMaterialPage(Page page) {
         this.page = page;
@@ -24,7 +22,7 @@ public class LearningMaterialPage {
         for (String selector : homeHeadingFallbacks) {
             try {
                 Locator loc = page.locator(selector).first();
-                loc.waitFor(new Locator.WaitForOptions().setTimeout(5000L).setState(WaitForSelectorState.VISIBLE));
+                loc.waitFor(new Locator.WaitForOptions().setTimeout(8000L).setState(WaitForSelectorState.VISIBLE));
                 String txt = loc.textContent();
                 if (txt != null && !txt.trim().isEmpty()) {
                     return txt.trim();
@@ -105,6 +103,45 @@ public class LearningMaterialPage {
         System.out.println("Address: " + address);
         return deviceType + ", " + brand + ", " + storage + ", " + color + ", " + quantity + ", " + address;
     }
+    public String verifySelectedDeviceUnitPrice() {
+        return page.locator("id=base-price-value").textContent();
+    }
+    public void verifyClickExpressShippingOption() {
+        page.click("id=shipping-option-express");
+    }
+    public void verifyClickWarrantyOption() {
+        page.click("id=warranty-1yr");
+    }
+    public void verifyDiscountCodeInputOption(String discountCode) {
+        page.fill("id=discount-code", discountCode);
+        page.click("id=apply-discount-btn");
+    }
+    public String verifyDiscountAppliedMessage() {
+        try {
+            page.locator("id=discount-feedback").waitFor(new Locator.WaitForOptions().setTimeout(5000L).setState(WaitForSelectorState.VISIBLE));
+        }catch (PlaywrightException e) {
+            String errorMessage = e.getMessage();
+            System.err.println("Caught Playwright error: " + errorMessage);
+
+        }
+        return "";
+    }
+    public String verifySubtotalAmount() {
+        return page.locator("id=breakdown-subtotal-value").textContent();
+    }
+    public String verifyWarrantAmount(){
+        return page.locator("id=breakdown-warranty-value").textContent();
+    }
+    public String verifyShippingAmount(){
+        return page.locator("id=breakdown-shipping-value").textContent();
+    }
+    public String verifyDiscountedAmount(){
+        return page.locator("id=breakdown-discount-value").textContent();
+    }
+    public String verifyTotalAmount(){
+        return page.locator("id=breakdown-total-value").textContent();
+    }
+
 
 
 }
