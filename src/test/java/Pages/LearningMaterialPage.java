@@ -2,8 +2,8 @@ package Pages;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
-import com.microsoft.playwright.PlaywrightException;
 import com.microsoft.playwright.options.WaitForSelectorState;
+import org.testng.Assert;
 
 public class LearningMaterialPage {
     Page page;
@@ -11,6 +11,7 @@ public class LearningMaterialPage {
     // Primary selector and sensible fallbacks
     final String[] homeHeadingFallbacks = new String[]{"#practice-heading", "h1", "header h1", ".page-title", ".heading", "main h1"};
     final String logoutButton_ID = "#logout-button";
+    final String quantityInput_ID = "#quantity";
     final String webAutomationAdvanced_ID = "//span[normalize-space()='Web Automation Advance']";
 
     public LearningMaterialPage(Page page) {
@@ -58,9 +59,14 @@ public class LearningMaterialPage {
     public void selectTabletOption() {
         page.locator("select#deviceType").selectOption("Tablet");
     }
-    public void selectTabletBrandOption() {
+    public void selectBrandOption() {
+        String deviceType = page.inputValue("select#deviceType");
+        if (deviceType == null || deviceType.isEmpty()) {
+            throw new IllegalStateException("Select device type first");
+        }
         page.locator("select#brand").selectOption("Samsung");
     }
+
     public void clickStorageTypeSelect_ID() {
         page.click("id=storage-256GB");
     }
@@ -72,8 +78,14 @@ public class LearningMaterialPage {
             throw new RuntimeException(e);
         }
     }
+
     public void inputQuantityOption(String quantity) {
-        page.fill("id=quantity", quantity);
+        page.fill(quantityInput_ID, quantity);
+        int quantityInt = Integer.parseInt(quantity);
+        if (quantityInt < 1 || quantityInt > 10){
+            throw new IllegalStateException("Enter valid quantity number");
+
+        }
     }
     public void inputAddressOption(String address) {
         page.fill("id=address", address);
@@ -84,6 +96,10 @@ public class LearningMaterialPage {
         }
     }
     public void clickNextButton() {
+        String brandName = page.inputValue("select#brand");
+        if ( brandName == null || brandName.isEmpty()) {
+            throw new IllegalStateException("Select Brand first");
+        }
         page.click("id=inventory-next-btn");
     }
     public String verifySelectedDeviceInfo() {
@@ -117,14 +133,9 @@ public class LearningMaterialPage {
         page.click("id=apply-discount-btn");
     }
     public String verifyDiscountAppliedMessage() {
-        try {
-            page.locator("id=discount-feedback").waitFor(new Locator.WaitForOptions().setTimeout(5000L).setState(WaitForSelectorState.VISIBLE));
-        }catch (PlaywrightException e) {
-            String errorMessage = e.getMessage();
-            System.err.println("Caught Playwright error: " + errorMessage);
-
-        }
-        return "";
+        Locator discountFeedback = page.locator("id=discount-feedback");
+        discountFeedback.waitFor(new Locator.WaitForOptions().setTimeout(5000L).setState(WaitForSelectorState.VISIBLE));
+        return discountFeedback.textContent();
     }
     public String verifySubtotalAmount() {
         return page.locator("id=breakdown-subtotal-value").textContent();
@@ -140,6 +151,13 @@ public class LearningMaterialPage {
     }
     public String verifyTotalAmount(){
         return page.locator("id=breakdown-total-value").textContent();
+    }
+    public void verifyAddToCarTBtnClick(){
+        page.click("id=add-to-cart-btn");
+    }
+    public void  verifyAddToCartPageTitle(){
+       page.waitForSelector("id=cart-title").isVisible();
+
     }
 
 

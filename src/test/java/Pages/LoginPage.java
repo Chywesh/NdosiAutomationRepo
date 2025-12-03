@@ -80,7 +80,7 @@ public class LoginPage {
 
     //Click login button method - wait 5 seconds after clicking to allow post-login processing
     public void clickLoginButton() {
-        page.click(loginButton_ID, new Page.ClickOptions().setTimeout(60000));
+        page.click(loginButton_ID, new Page.ClickOptions().setTimeout(6000));
         page.waitForTimeout(3000); // wait 3 seconds after login
     }
 

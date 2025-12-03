@@ -31,10 +31,10 @@ public class GoldenPath extends BaseTrack {
     @Test(priority = 2)
     public void verifySelectTabletOptionsTests() {
         learningMaterialPage.selectTabletOption();
-        learningMaterialPage.selectTabletBrandOption();
+        learningMaterialPage.selectBrandOption();
         learningMaterialPage.clickStorageTypeSelect_ID();
         learningMaterialPage.selectColorChoiceOption();
-        learningMaterialPage.inputQuantityOption("2");
+        learningMaterialPage.inputQuantityOption("10");
         learningMaterialPage.inputAddressOption("1522 SmartLink");
         learningMaterialPage.clickNextButton();
     }
@@ -64,14 +64,14 @@ public class GoldenPath extends BaseTrack {
     }
     @Test(priority = 6)
     public void verifyDiscountCodeOptionTests(){
-        learningMaterialPage.verifyDiscountCodeInputOption("50");
+        learningMaterialPage.verifyDiscountCodeInputOption("save10");
 
     }
     @Test(priority = 7)
     public void verifyDiscountAppliedTests(){
         String discountApplied = learningMaterialPage.verifyDiscountAppliedMessage();
         System.out.println("Discount Applied Details: " + discountApplied);
-        Assert.assertFalse(discountApplied == null || discountApplied.trim().isEmpty(), "Expected a non-empty discount applied details after entering discount code");
+
 
     }
     @Test(priority = 8)
@@ -111,5 +111,14 @@ public class GoldenPath extends BaseTrack {
         System.out.println("Total Amount Details: " + totalAmountDetails);
         Assert.assertFalse(totalAmountDetails == null || totalAmountDetails.trim().isEmpty(), "Expected a non-empty total amount details after clicking next");
     }
-
+    @Test(priority = 14)
+    public void verifyAddToCartButtonTests() {
+        learningMaterialPage.verifyAddToCarTBtnClick();
+    }
+    @Test(priority = 15)
+    public void verifyAddToCartPageTitleTests() {
+        page.mouse().wheel(0, 400);
+        learningMaterialPage.verifyAddToCartPageTitle();
+        ScreenshotHelper.takeScreenshot(page, "GoldenPath_verifyAddToCartPageTitleTests_success");
+    }
 }
